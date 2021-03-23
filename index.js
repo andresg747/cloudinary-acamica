@@ -11,8 +11,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/hola', (req, res) => {
-  res.header('Content-Type', 'application/json');
-  res.send(400);
+  if (Object.keys(req.query).length === 0) {
+    // Si no hay query string
+    res.header('Content-Type', 'application/json');
+    return res.send({ message: 'Respuesta exitosa' });
+  }
+  // Si existe query string
+  return res.send(req.query);
 });
 
 app.listen(process.env.PORT, () => {
