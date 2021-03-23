@@ -1,27 +1,20 @@
 require('dotenv').config();
-const cloudinary = require('cloudinary').v2;
+const express = require('express');
+const morgan = require('morgan');
+const app = express();
 
-cloudinary.config({
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
-  cloud_name: process.env.CLOUD_NAME,
+app.use(morgan(':method :url :status'));
+
+app.get('/', (req, res) => {
+  res.header('Content-Type', 'text/html');
+  res.send('Ruta principal');
 });
 
-// cloudinary.uploader.upload("./images/nodejs1.png", (error, result) => {
-//   if (error) {
-//     console.log(error)
-//   } else {
-//     console.log(result);
-//   }
-// });
+app.get('/hola', (req, res) => {
+  res.header('Content-Type', 'application/json');
+  res.send(400);
+});
 
-const uploadImage = async () => {
-  try {
-    const result = await cloudinary.uploader.upload("./images/nodejs.png");
-    console.log(result.secure_url);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-uploadImage();
+app.listen(process.env.PORT, () => {
+  console.log(`Running on port ${process.env.PORT}`);
+});
